@@ -10,7 +10,7 @@ func GenerateCaplet(filename string) error {
 	templ :=
 		`set binject.devices linux
 set binject.useragent.linux    Linux
-set binject.extensions.linux    tgz,tar.gz
+set binject.extensions.linux    tgz,tar.gz,zip
 set http.proxy.script binject.js
 
 # uncomment if you want sslstrip enabled
