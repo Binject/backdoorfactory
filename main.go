@@ -115,6 +115,12 @@ func Inject(dry *bytes.Buffer, config *bj.BinjectConfig) (wet *bytes.Buffer, err
 
 	case "x-executable":
 		return injectIfBinary(dry, config)
+
+	case "x-tar":
+		return injectTar(dry, config)
+
+	case "zip":
+		return injectZip(dry, config)
 	}
 
 	return dry, nil // default to doing nothing
@@ -220,6 +226,7 @@ func injectTar(dry io.Reader, config *bj.BinjectConfig) (*bytes.Buffer, error) {
 			return nil, err
 		}
 		// Write injected file to output
+		hdr.Size = int64(datab.Len())
 		if err := tw.WriteHeader(hdr); err != nil {
 			return nil, err
 		}
