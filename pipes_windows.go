@@ -4,6 +4,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"io/ioutil"
 	"log"
 	"net"
@@ -65,12 +66,13 @@ func handleDryConnection(conn net.Conn, config *bj.BinjectConfig) {
 		log.Fatalf("Error reading from connection: %v", err)
 	}
 
-	i, err := Inject(b, config)
+	bb := bytes.NewBuffer(b)
+	i, err := Inject(bb, config)
 	if err != nil {
 		log.Fatalf("Error injecting: %v", err)
 	}
 	log.Println("Set lastBytes: ", len(lastBytes))
-	lastBytes = i
+	lastBytes = i.Bytes()
 	if err := conn.Close(); err != nil {
 		log.Fatalf("Error closing server side of connection: %v", err)
 	}

