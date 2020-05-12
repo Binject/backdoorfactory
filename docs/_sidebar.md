@@ -5,3 +5,5 @@
     - [Installation](installation.md)
     - [Usage](usage.md)
     - [Contributing](contributing.md)
+
+- [![GoDoc](https://godoc.org/github.com/Binject/backdoorfactory?status.svg)](https://godoc.org/github.com/Binject/backdoorfactory)
