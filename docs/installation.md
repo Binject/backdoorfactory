@@ -5,5 +5,6 @@
 It's recommended to use the pre-compiled binaries.
 
 3. From the directory you want the binary to be in, run:  
+ `go get -u github.com/Binject/backdoorfactory` 
  `go build github.com/Binject/backdoorfactory` 
 
