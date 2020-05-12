@@ -37,8 +37,8 @@ func main() {
 		Help: "Create the empty shellcode directories and quit"})
 
 	// One-Shot Mode is for testing injections locally
-	testfile := parser.String("s", "shellfile", &argparse.Options{Required: false,
-		Help: "File to inject (oneshot test mode)"})
+	testfile := parser.String("t", "testfile", &argparse.Options{Required: false,
+		Help: "File to inject into (oneshot test mode)"})
 	outfile := parser.String("o", "out", &argparse.Options{Required: false,
 		Help: "Output file (oneshot test mode)"})
 
