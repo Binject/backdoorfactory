@@ -25,7 +25,7 @@ Copy the shellcode you want to inject into binaries into the appropriate folders
 For example, a Linux x64 shellcode could be copied to:
 `shellcodes/linux/x64/shellcode.bin`
 
-Your shellcodes do not need to worry about the state of the stack of the details of injection, [binjection](https://github.com/Binject/binjection) handles all of that.
+Your shellcodes do not need to worry about the state of the stack or the details of injection, [binjection](https://github.com/Binject/binjection) handles all of that.
 
 ## Running backdoorfactory and bettercap
 
