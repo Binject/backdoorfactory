@@ -75,7 +75,10 @@ func handleDryConnection(buff bytes.Buffer, config *bj.BinjectConfig) {
 	i, err := Inject(&buff, config)
 	if err != nil {
 		log.Printf("Error injecting: %v\n", err)
+		return
 	}
-	log.Println("Set lastBytes: ", len(lastBytes))
-	lastBytes = i.Bytes()
+	if i != nil {
+		lastBytes = i.Bytes()
+		log.Println("Set lastBytes: ", len(lastBytes))
+	}
 }

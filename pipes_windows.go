@@ -63,18 +63,23 @@ func handleDryConnection(conn net.Conn, config *bj.BinjectConfig) {
 	r := bufio.NewReader(conn)
 	b, err := ioutil.ReadAll(r)
 	if err != nil {
-		log.Fatalf("Error reading from connection: %v", err)
+		log.Printf("Error reading from connection: %v", err)
+		return
 	}
 
 	bb := bytes.NewBuffer(b)
 	i, err := Inject(bb, config)
 	if err != nil {
-		log.Fatalf("Error injecting: %v", err)
+		log.Printf("Error injecting: %v", err)
+		return
 	}
-	log.Println("Set lastBytes: ", len(lastBytes))
-	lastBytes = i.Bytes()
+	if i != nil {
+		lastBytes = i.Bytes()
+		log.Println("Set lastBytes: ", len(lastBytes))
+	}
 	if err := conn.Close(); err != nil {
-		log.Fatalf("Error closing server side of connection: %v", err)
+		log.Printf("Error closing server side of connection: %v", err)
+		return
 	}
 }
 
@@ -85,11 +90,13 @@ func handleWetConnection(conn net.Conn) {
 	log.Println("Wrote wet bytes: ", len(lastBytes))
 
 	if err != nil {
-		log.Fatalf("Error on writing to pipe: %v", err)
+		log.Printf("Error on writing to pipe: %v", err)
+		return
 	}
 
 	if err := conn.Close(); err != nil {
-		log.Fatalf("Error closing server side of connection: %v", err)
+		log.Printf("Error closing server side of connection: %v", err)
+		return
 	}
 	lastBytes = nil
 }
