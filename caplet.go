@@ -35,15 +35,20 @@ sleep 1
 # turn arp spoofing on 
 arp.spoof on
 `
-
-	f, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	t := template.Must(template.New("cap").Parse(templ))
-	err = t.Execute(f, nil)
-	if err != nil {
-		return err
+	if _, err := os.Stat(filename); err != nil {
+		if os.IsNotExist(err) {
+			f, err := os.Create(filename)
+			if err != nil {
+				return err
+			}
+			t := template.Must(template.New("cap").Parse(templ))
+			err = t.Execute(f, nil)
+			if err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
 	}
 	return nil
 }
@@ -137,16 +142,20 @@ function onResponse(req, res) {
 	}
 }
 `
-
-	f, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	t := template.Must(template.New("cap").Parse(templ))
-	err = t.Execute(f, config)
-	if err != nil {
-		return err
+	if _, err := os.Stat(filename); err != nil {
+		if os.IsNotExist(err) {
+			f, err := os.Create(filename)
+			if err != nil {
+				return err
+			}
+			t := template.Must(template.New("cap").Parse(templ))
+			err = t.Execute(f, config)
+			if err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
 	}
 	return nil
-
 }

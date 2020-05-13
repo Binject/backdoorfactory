@@ -182,7 +182,9 @@ func injectTarGz(dry *bytes.Buffer, config *bj.BinjectConfig) (*bytes.Buffer, er
 	defer zr.Close()
 
 	ob, err := injectTar(zr, config)
-
+	if err != nil {
+		return nil, err
+	}
 	w := bytes.NewBuffer(nil)
 	gw, err := gzip.NewWriterLevel(w, gzip.BestCompression)
 	if err != nil {
