@@ -115,8 +115,7 @@ function onResponse(req, res) {
 						         redLine + "  Grabbing " + boldRed + targets[t]["device"].toUpperCase() + reset + " payload..."
 					
 		// ** Get http request and parse it, pipe to drypipe.
-		var body = res.ReadBody()
-		writeFile("/tmp/download.test",body)
+		var body = res.ReadBody()		
 		log(body)
 		writeFile("{{.DryPipe}}",body)
 		// ** Read the output from from wetpipe.
