@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Binject/shellcode"
 	"github.com/Binject/binjection/bj"
 )
 
@@ -56,12 +57,13 @@ func Test_Pipe_Elf_Inject_1(t *testing.T) {
 	dryPipe := MakePipe(namedPipe + "dry")
 	wetPipe := MakePipe(namedPipe + "wet")
 
-	config := &bj.BinjectConfig{CodeCaveMode: false}
+        repo := shellcode.NewRepo("test")
+	config := &bj.BinjectConfig{Repo:repo, CodeCaveMode: false}
 
 	go ListenPipeDry(dryPipe, config)
 	go ListenPipeWet(wetPipe)
 
-	dryBytes, err := ioutil.ReadFile("test/static_ls")
+	dryBytes, err := ioutil.ReadFile(filepath.Join("test","static_ls"))
 	if err != nil {
 		t.Fatal(err)
 	}
