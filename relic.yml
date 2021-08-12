@@ -91,11 +91,11 @@ keys:
   my_file_key:
     token: file
     # Path to the private key file. The password is specified in the token configuration above.
-    keyfile: /home/k/keys/rsa1.key
+    keyfile: /yourpath/rsa1.key
 
     # The remaining options are the same as above
     # pgpcertificate: /home/bb/keys/rsa1.pub
-    x509certificate: /home/k/keys/rsa1.crt
+    x509certificate: /yourpath/rsa1.crt
     timestamp: false
    # roles: ['somegroup']
 
