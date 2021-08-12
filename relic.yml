@@ -1,0 +1,206 @@
+---
+# Tokens on which signing keys can be found. Each configured key refers to a token by name.
+tokens:
+
+  # Use a PKCS#11 library as a token
+  mytoken:
+    # Full path to provider library
+    provider: /usr/lib64/softhsm/libsofthsm.so
+
+    # Optional selectors to pick a token from those the provider offers
+    label: alpha
+    serial: 99999
+
+    # PIN is optional for command-line use, but required for servers. See also 'pinfile'.
+    pin: 123456
+    #pin: "" # blank PIN, without prompting
+
+    # If true, try to save the PIN in the system keyring (command-line only)
+    #usekeyring: false
+
+    # Optional login user. Useful values:
+    # 0 - CKU_SO
+    # 1 - CKU_USER (default)
+    # 2 - CKU_CONTEXT_SPECIFIC, SafeNet: CKU_AUDIT
+    # 0x80000001 - SafeNet: CKU_LIMITED_USER
+    #user: 1
+
+    # Optional parameters for server mode
+    #timeout: 60  # Terminate each attempt after N seconds (default: 60)
+    #retries: 5   # Retry failed commands N times (default: 5)
+
+  # Use GnuPG scdaemon as a token
+  myscd:
+    type: scdaemon
+    # Optionally specify the scdaemon socket path. If not provided then the
+    # default will be used.
+    provider: /run/myscd/S.scdaemon
+
+    # Optional serial number of the expected card.
+    serial: D99999999999999999999
+
+    # PIN is optional for command-line use, but required for servers. See also 'pinfile'.
+    pin: 123456
+
+  # Use private key files as a "token". The path to the key is specified in the key section(s)
+  file:
+    type: file
+    # If the private key is protected with a password, specify it here
+    # pin: test
+
+# Keys that can be used for signing
+keys:
+
+  my_token_key:
+    # Which token, defined above, to find the key on
+    token: mytoken
+
+    # Optional selectors to pick a key from those in the token
+    # CKA_LABEL:
+    label: "label"
+    # CKA_ID:
+    id: 00112233
+
+    # Path to a PGP certificate, if PGP signing is desired. Can be ascii-armored or binary.
+    pgpcertificate: ./keys/rsa1.pub
+
+    # Path to a X509 certificate, if X509 signing is desired. Can be PEM, DER,
+    # or PKCS#7 (p7b) format, with optional certificate chain.
+    x509certificate: ./keys/rsa1.cer
+
+    # true if a RFC 3161 timestamp should be attached, see 'timestamp' below
+    timestamp: false
+
+    # Clients with any of these roles can utilize this key
+    roles: ['somegroup']
+
+  my_scd_key:
+    token: myscd
+    # Specify which key to use. For OpenPGP cards this will be either OPENPGP.1 or OPENPGP.3.
+    id: OPENPGP.1
+
+    # The remaining options are the same as above
+    pgpcertificate: ./keys/rsa1.pub
+    x509certificate: ./keys/rsa1.cer
+    timestamp: false
+    roles: ['somegroup']
+
+#--------------------------------------------
+#!!ADD THE PATH TO YOUR CODESIGNING KEYS HERE!
+#--------------------------------------------
+  my_file_key:
+    token: file
+    # Path to the private key file. The password is specified in the token configuration above.
+    keyfile: /home/k/keys/rsa1.key
+
+    # The remaining options are the same as above
+    # pgpcertificate: /home/bb/keys/rsa1.pub
+    x509certificate: /home/k/keys/rsa1.crt
+    timestamp: false
+   # roles: ['somegroup']
+
+  aliased_key:
+    # When alias is set, this key name becomes an alias for the other key.
+    # Alises cannot override any parameters of the key, including roles.
+    alias: my_token_key
+
+# Server-specific configuration
+server:
+  # What port to listen on. Defaults to :6300.
+  # Socket activation via systemd is also supported, in which case this is ignored.
+  listen: ":6300"
+
+  # Listen for non-secure connections. This is only useful for health checks,
+  # since every other endpoint requires a client certificate. Defaults to none.
+  listenhttp: ":6301"
+
+  # Private key for server TLS. PEM format, RSA or ECDSA
+  keyfile: /etc/relic/server/server.key
+
+  # X.509 certificate for server TLS. PEM format. If a cert chain is needed it
+  # should follow the main cert.
+  certfile: /etc/relic/server/server.key
+
+  # Optional logfile for server errors. If not set, then standard error is used
+  logfile: /var/log/relic/server.log
+
+  # How many worker subprocesses to spawn per token. Usually only 1 is required.
+  #numworkers: 1
+
+  # Set the frequency and tolerance of token health checks
+  #tokencheckinterval: 60  # ping the token every N seconds
+  #tokenchecktimeout: 30   # fail a ping if it is stuck for N seconds
+  #tokencheckfailures: 3   # the server will report "not healthy" after N failed pings
+
+  # Optional list of URLs that are part of a cluster of servers
+  #siblings:
+  #- https://relic1:6300
+  #- https://relic2:6300
+
+# Instead of including token PINs in this file, you can specify an alternate
+# "pin file" which is a YAML file holding key-value pairs where the key is the
+# name of the token and the value is the PIN.
+#pinfile: /etc/relic/pin.yaml
+
+# Configure trusted timestamping servers, used by keys that have timestamping
+# enabled when using a signature type that supports it.
+timestamp:
+  # RFC 3161 timestamp server(s). If more than one is provided then they will
+  # be tried in the order given until one succeeds.
+  urls:
+    - http://mytimestamp.server/rfc3161
+
+  # Non-RFC3161 timestamp server(s), used for appmanifest only
+  msurls:
+    - http://mytimestamp.server
+
+  # Optional timeout for each timestamp request
+  timeout: 60
+
+  # Optional alternate CA certificate file for contacting timestamp servers
+  # cacert: /etc/pki/tls/mychain.pem
+
+  # Optional memcache servers for memoizing timestamp requests
+  #memcache:
+  # - 127.0.0.1:11211
+
+  # Optional rate limit for timestamp requests
+  #ratelimit: 1  # requests per second
+  #rateburst: 10 # burst capacity
+
+# AMQP broker used to submit audit logs
+amqp:
+  # Optional audit logging to an AMQP broker
+  #url: amqp://guest:guest@127.0.0.1:5672
+
+  # Optional TLS parameters
+  #cacert:
+  #keyfile:
+  #certfile:
+
+  # "fanout" type exchange to send audit messages to, default relic.signatures
+  #sigsXchg: relic.signatures
+
+# Authentication to the server is via client certificate. Certificates are
+# identified by their fingerprint. Fingerprints can be obtained by using the
+# "relic remote register" command on the client to generate the key, or by
+# checking the server error log after attempting to connect.
+clients:
+  E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855:
+    # Display name for this client
+    nickname: myuser
+    # List of roles this user possesses. Must contain at least one of the roles
+    # on a key for the user to access that key.
+    roles: ['somegroup']
+
+  # Alternately, clients can be authenticated using one or more CA
+  # certificates. The CA that the client matches determines the roles they have
+  # access to, and the subject DN of the leaf certificate is logged. This can
+  # be used to delegate access to a short-lived build process.
+  #my_root_ca:
+  #  nickname: my_root_ca
+  #  certificate: |
+  #    -----BEGIN CERTIFICATE-----
+  #    asdfasdfasdf
+  #    -----END CERTIFICATE-----
+  #  roles: ['somegroup']
