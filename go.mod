@@ -1,6 +1,6 @@
 module github.com/Binject/backdoorfactory
 
-go 1.14
+go 1.16
 
 require (
 	github.com/Binject/binjection v0.0.0-20191205221130-3927f970a61f
@@ -9,4 +9,10 @@ require (
 	github.com/akamensky/argparse v1.2.1
 	github.com/fatih/color v1.9.0 // indirect
 	github.com/h2non/filetype v1.1.0
+	github.com/sassoftware/relic v7.2.1+incompatible
+	golang.org/x/crypto v0.0.0-20210812204632-0ba0e8f03122 // indirect
+	golang.org/x/net v0.0.0-20210805182204-aaa1db679c0d // indirect
+	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce
 )
+
+replace github.com/sassoftware/relic => github.com/7777333/relic v0.0.0-20210813152643-63a83d342f65
