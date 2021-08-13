@@ -15,4 +15,4 @@ require (
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce
 )
 
-replace github.com/sassoftware/relic => github.com/7777333/relic v0.0.0-20210812162757-c7fe711ac8b9
+replace github.com/sassoftware/relic => github.com/7777333/relic v0.0.0-20210813152643-63a83d342f65

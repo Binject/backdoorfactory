@@ -43,6 +43,8 @@ cloud.google.com/go/storage v1.6.0/go.mod h1:N7U0C8pVQ/+NIKOBQyamJIeKQKkZ+mxpohl
 cloud.google.com/go/storage v1.8.0/go.mod h1:Wv1Oy7z6Yz3DshWRJFhqM/UCfaWIRTdp0RXyy7KQOVs=
 cloud.google.com/go/storage v1.10.0/go.mod h1:FLPqc6j+Ki4BU591ie1oL6qBQGu2Bl/tZ9ullr3+Kg0=
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
+github.com/7777333/relic v0.0.0-20210813152643-63a83d342f65 h1:YEm1MywuWTVbTMm/wwxRnGhHUPk34S4t4v9REXl8Mfc=
+github.com/7777333/relic v0.0.0-20210813152643-63a83d342f65/go.mod h1:T3j4gbNKhyaXIwYI1e+/OlD6195u6mFWVAbzNXG2BZw=
 github.com/Azure/azure-sdk-for-go v56.0.0+incompatible h1:jp/df9XKIJYtf4HIVA9cgmVbQpp12lxk73pcHvDsgDE=
 github.com/Azure/azure-sdk-for-go v56.0.0+incompatible/go.mod h1:9XXNKU+eRnpl9moKnB4QOLf1HestfXbmab5FXxiDBjc=
 github.com/Azure/go-autorest v14.2.0+incompatible h1:V5VMDjClD3GiElqLWO7mz2MxNAK/vTfRHdAubSIPRgs=
@@ -314,8 +316,6 @@ github.com/pkg/sftp v1.10.1/go.mod h1:lYOWFsE0bwd1+KfKJaKeuokY15vzFx25BLbzYYoAxZ
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/posener/complete v1.1.1/go.mod h1:em0nMJCgc9GFtwrmVmEMR/ZL6WyhyjMBndrE9hABlRI=
-github.com/pqxct/relic v0.0.0-20210812162757-c7fe711ac8b9 h1:qzSuIBQ0QzueyQMuhk6Zk886qZORTUK9xU5xOD/PJ+c=
-github.com/pqxct/relic v0.0.0-20210812162757-c7fe711ac8b9/go.mod h1:XUCddA8DR6ZcaofTT4FFsOJm1dKP+1tjJKS/D5Q+Mjo=
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/qur/ar v0.0.0-20130629153254-282534b91770 h1:A6sXY4zAECrW5Obx41PVMGr4kOw1rd1kmwcHa5M0dTg=
 github.com/qur/ar v0.0.0-20130629153254-282534b91770/go.mod h1:SjlYv2m9lpV0UW6K7lDqVJwEIIvSjaHbGk7nIfY8Hxw=
